@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".NameActivity">
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/ciecleImage"
+        android:layout_width="96dp"
+        android:layout_height="96dp"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/default_profil"/>
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/ciecleImage"
+        android:layout_marginTop="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:hint="write your name"
+        android:textSize="25sp"/>
+
+    <Button
+        android:id="@+id/button5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/nameEditText"
+        android:text="next"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textSize="25sp"
+        android:paddingLeft="25sp"
+        android:paddingRight="25sp"
+        android:textAllCaps="true"
+        android:layout_marginTop="35dp"
+        android:layout_centerHorizontal="true"
+        />
+
+</RelativeLayout>

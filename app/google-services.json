@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "258898077247",
+    "firebase_url": "https://gps-family-b33d9.firebaseio.com",
+    "project_id": "gps-family-b33d9",
+    "storage_bucket": "gps-family-b33d9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:258898077247:android:a6dac7aea88d32b4",
+        "android_client_info": {
+          "package_name": "hdtch.com.gpstrackerapp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "258898077247-l6uq20nmpb1e8vpuicte2v6imnnffurp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "hdtch.com.gpstrackerapp",
+            "certificate_hash": "6bc4f22583d20e3426df39062de854e9f92b0aa0"
+          }
+        },
+        {
+          "client_id": "258898077247-fu37slc94i9hkut6ofdrk0pt9qhp4dnq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAPPpm3HyNBnj40SXxA7qRFwt9sRmxbums"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "258898077247-fu37slc94i9hkut6ofdrk0pt9qhp4dnq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
