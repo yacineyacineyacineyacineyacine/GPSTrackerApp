@@ -3,6 +3,7 @@ package hdtch.com.gpstrackerapp;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -18,6 +19,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private EditText emailEdirText;
     private EditText passwordEditText;
+    private ProgressDialog progressDialog;
 
     private FirebaseAuth firebaseAuth;
 

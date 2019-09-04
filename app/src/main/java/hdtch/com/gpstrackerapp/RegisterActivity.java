@@ -48,13 +48,14 @@ public class RegisterActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<SignInMethodQueryResult> task) {
 
-                      boolean check = !task.getResult().toString().isEmpty();
-                      if(!check){
+                      boolean check = task.isSuccessful();
+                      if(check){
                           progressDialog.dismiss();
                           // email does not exist so create the user
                           Intent intent = new Intent(getApplicationContext(), PasswordActivity.class);
                           intent.putExtra("email", emailEditText.getText().toString().trim());
                           startActivity(intent);
+                          finish();
                       }else{
                           progressDialog.dismiss();
                           Toast.makeText(RegisterActivity.this, "this email is already registred", Toast.LENGTH_SHORT).show();
