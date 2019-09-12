@@ -35,13 +35,15 @@
         android:layout_below="@+id/textView2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="@color/colorPrimaryDark"
         android:layout_marginTop="65sp"
         android:layout_centerHorizontal="true"
         android:text="Register"
+        android:textColor="#FFFFFF"
         android:textStyle="bold"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:textAlignment="center"
-        android:textSize="20sp"
+        android:textSize="22sp"
         android:onClick="registerUser"/>
 </RelativeLayout>

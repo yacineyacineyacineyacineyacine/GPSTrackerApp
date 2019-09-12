@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -14,6 +15,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class LoginActivity extends AppCompatActivity {
 
@@ -40,7 +42,18 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                        if(task.isSuccessful()){
-                           Toast.makeText(LoginActivity.this, "User Logged In Successfully", Toast.LENGTH_LONG).show();
+
+                           FirebaseUser firebaseUser = firebaseAuth.getCurrentUser();
+                           if(firebaseUser.isEmailVerified()){
+                               Toast.makeText(LoginActivity.this, "User Logged In Successfully", Toast.LENGTH_LONG).show();
+                               Intent intent = new Intent(LoginActivity.this, UserLocationMainActivity.class);
+                               startActivity(intent);
+                               finish();
+                           }else{
+                               Toast.makeText(LoginActivity.this, "Your Email is nit verified yet", Toast.LENGTH_SHORT).show();
+                           }
+
+
                        }
                     }
                 }).addOnFailureListener(new OnFailureListener() {

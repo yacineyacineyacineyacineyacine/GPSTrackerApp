@@ -13,12 +13,18 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+
+import java.net.URI;
 
 import hdtch.com.gpstrackerapp.tools.CreateUser;
 
@@ -40,6 +46,7 @@ public class InviteCodeActivity extends AppCompatActivity {
     private FirebaseAuth auth;
     private FirebaseUser firebaseUser;
     private DatabaseReference databaseReference;
+    private StorageReference storageReference;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class InviteCodeActivity extends AppCompatActivity {
 
         auth = FirebaseAuth.getInstance();
         databaseReference = FirebaseDatabase.getInstance().getReference().child("Users");
+        storageReference = FirebaseStorage.getInstance().getReference().child("User_images");
 
         Intent myIntent = getIntent();
         if(myIntent != null){
@@ -86,19 +94,77 @@ public class InviteCodeActivity extends AppCompatActivity {
                                         @Override
                                         public void onComplete(@NonNull Task<Void> task) {
                                              if(task.isSuccessful()){
-                                                 progressDialog.dismiss();
-                                                 Toast.makeText(InviteCodeActivity.this, "User Registred Successfully", Toast.LENGTH_SHORT).show();
+
+                                                 //save the image to FirebaseStorage
+
+                                                 final StorageReference sr = storageReference.child(userId + ".jpg");
+                                                    sr.putFile(imageUri)
+                                                        .addOnCompleteListener(new OnCompleteListener<UploadTask.TaskSnapshot>() {
+                                                             @Override
+                                                             public void onComplete(@NonNull Task<UploadTask.TaskSnapshot> task) {
+
+                                                                 if(task.isSuccessful()){
+
+                                                                     sr.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                                                         @Override
+                                                                         public void onSuccess(Uri uri) {
+                                                                             String downlaodUrl = uri.toString();
+                                                                             //save the image path to FirebaseStorage
+                                                                             databaseReference.child(userId).child("imageUri").setValue(downlaodUrl)
+                                                                                     .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                                                         @Override
+                                                                                         public void onComplete(@NonNull Task<Void> task) {
+                                                                                             if(task.isSuccessful()){
+                                                                                                 //  Toast.makeText(InviteCodeActivity.this, "Email sent, Chec your emaul box", Toast.LENGTH_SHORT).show();
+                                                                                                 sendVerfivationEmail();
+                                                                                             }else{
+
+                                                                                                 progressDialog.dismiss();
+                                                                                                 Toast.makeText(InviteCodeActivity.this, "Failed to register the verification email", Toast.LENGTH_SHORT).show();
+                                                                                             }
+                                                                                         }
+                                                                                     });
+                                                                         }
+                                                                     });
+
+
+
+
+
+                                                                 }else {
+                                                                     progressDialog.dismiss();
+                                                                     Toast.makeText(InviteCodeActivity.this, "Could not register the user image", Toast.LENGTH_LONG).show();
+                                                                 }
+
+                                                             }
+                                                         });
                                              }else{
                                                  progressDialog.dismiss();
                                                  Toast.makeText(InviteCodeActivity.this, "Could not register user", Toast.LENGTH_SHORT).show();
                                              }
                                         }
                                     });
-
                         }
                     }
                 });
+    }
 
+    private void sendVerfivationEmail() {
 
+        firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
+            @Override
+            public void onComplete(@NonNull Task<Void> task) {
+                if(task.isSuccessful()){
+                    progressDialog.dismiss();
+                    Toast.makeText(InviteCodeActivity.this, "Email verification sent for you", Toast.LENGTH_SHORT).show();
+                    Intent myIntent = new Intent(getApplicationContext(), MainActivity.class);
+                    startActivity(myIntent);
+                    finish();
+                    auth.signOut();
+                    }else{
+                    Toast.makeText(InviteCodeActivity.this, "Could not send the email", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
